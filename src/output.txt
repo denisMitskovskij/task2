@@ -1,0 +1,53 @@
+On 500 console output:
+
+Processing sequential
+Sample 0
+Test success
+Sample 1
+Test success
+Sample 2
+Test success
+Sample 3
+Test success
+Sample 4
+Test success
+Average time is 195656 ms
+Processing parallel
+Sample 0
+Test success
+Sample 1
+Test success
+Sample 2
+Test success
+Sample 3
+Test success
+Sample 4
+Test success
+Average time is 98726 ms
+
+On 400 console output:
+
+Processing sequential
+Sample 0
+Test success
+Sample 1
+Test success
+Sample 2
+Test success
+Sample 3
+Test success
+Sample 4
+Test success
+Average time is 23665 ms
+Processing parallel
+Sample 0
+Test success
+Sample 1
+Test success
+Sample 2
+Test success
+Sample 3
+Test success
+Sample 4
+Test success
+Average time is 12673 ms
