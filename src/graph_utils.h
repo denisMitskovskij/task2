@@ -6,41 +6,38 @@
 #include <cassert>
 #include <iostream>
 
-template <std::size_t DMS>
-uint64_t parseToInd(std::array<uint64_t, DMS> const& cs, std::array<uint64_t, DMS> const& dms){
+uint64_t parseToInd(std::array<uint64_t, 3> const& cs, std::array<uint64_t, 3> const& dms){
 
-    std::array<uint64_t, DMS> dimList;
-    dimList[DMS - 1] = 1;
+    std::array<uint64_t, 3> dimList;
+    dimList[2] = 1;
     uint64_t outVal = 0;
-    for (std::size_t x = DMS - 1; x >= 1; --x){
+    for (std::size_t x = 2; x >= 1; --x){
         dimList[x - 1] = dimList[x] * dms[x];
     }
 
-    for (std::size_t x = 0; x < DMS; ++x){
+    for (std::size_t x = 0; x < 3; ++x){
         outVal += cs[x] * dimList[x];
     }
     return outVal;
 }
 
-template <std::size_t DMS>
-uint64_t getAmountOfNodes(std::array<uint64_t, DMS> const& dms){
+uint64_t getAmountOfNodes(std::array<uint64_t, 3> const& dms){
 
     uint64_t outVal = 1;
-    for (std::size_t x = 0; x < DMS; ++x)    {
+    for (std::size_t x = 0; x < 3; ++x)    {
         outVal *= dms[x];
     }
     return outVal;
 }
 
-template <std::size_t DMS>
 void calcGraph(std::vector<std::vector<uint64_t>>& sides,
-    std::array<uint64_t, DMS> const& dms, std::array<uint64_t, DMS>& cs, std::size_t actualtCoordInd){
+    std::array<uint64_t, 3> const& dms, std::array<uint64_t, 3>& cs, std::size_t actualtCoordInd){
 
-    if (actualtCoordInd == DMS){
+    if (actualtCoordInd == 3){
         uint64_t ind = parseToInd(cs, dms);
         uint64_t temp = 0;
         
-        for (std::size_t x = 0; x < DMS; ++x){
+        for (std::size_t x = 0; x < 3; ++x){
             temp = cs[x] + 1;
             if (temp < dms[x]){
                 cs[x] = temp;
@@ -59,15 +56,14 @@ void calcGraph(std::vector<std::vector<uint64_t>>& sides,
     }
 }
 
-template <std::size_t DMS>
-std::vector<std::vector<uint64_t>> getGraph(std::array<uint64_t, DMS> const& dms){
+std::vector<std::vector<uint64_t>> getGraph(std::array<uint64_t, 3> const& dms){
 
     uint64_t amountOfNodes = 1;
-    for (std::size_t x = 0; x < DMS; ++x){
+    for (std::size_t x = 0; x < 3; ++x){
         amountOfNodes *= dms[x];
     }
     std::vector<std::vector<uint64_t>> sides(amountOfNodes);
-    std::array<uint64_t, DMS> cs;
+    std::array<uint64_t, 3> cs;
     calcGraph(sides, dms, cs, 0);
     return sides;
 }

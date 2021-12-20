@@ -11,9 +11,8 @@
 #include <array>
 #include "parray.hpp"
 
-template <std::size_t DMS>
-void getAllPoints(std::array<uint64_t, DMS> const& dims, std::array<uint64_t, DMS>& crds, std::size_t actInd, std::vector<std::array<uint64_t, DMS>>& result){
-    if (actInd == DMS){
+void getAllPoints(std::array<uint64_t, 3> const& dims, std::array<uint64_t, 3>& crds, std::size_t actInd, std::vector<std::array<uint64_t, 3>>& result){
+    if (actInd == 3){
         result.push_back(crds);
         return;
     } else{
@@ -24,18 +23,16 @@ void getAllPoints(std::array<uint64_t, DMS> const& dims, std::array<uint64_t, DM
     }
 }
 
-template <std::size_t DMS>
-std::vector<std::array<uint64_t, DMS>> getAll(std::array<uint64_t, DMS> const& dims){
-    std::vector<std::array<uint64_t, DMS>> result;
-    std::array<uint64_t, DMS> crds;
+std::vector<std::array<uint64_t, 3>> getAll(std::array<uint64_t, 3> const& dims){
+    std::vector<std::array<uint64_t, 3>> result;
+    std::array<uint64_t, 3> crds;
     getAllPoints(dims, crds, 0, result);
     return result;
 }
 
-template <std::size_t DMS>
-uint64_t calcDist(std::array<uint64_t, DMS> const& fst, std::array<uint64_t, DMS> const& snd){
+uint64_t calcDist(std::array<uint64_t, 3> const& fst, std::array<uint64_t, 3> const& snd){
     uint64_t result = 0;
-    for (std::size_t y = 0; y < DMS; ++y){
+    for (std::size_t y = 0; y < 3; ++y){
         if (fst[y] > snd[y]){
             result += (fst[y] - snd[y]);
         } else {
@@ -45,9 +42,9 @@ uint64_t calcDist(std::array<uint64_t, DMS> const& fst, std::array<uint64_t, DMS
     return result;
 }
 
-template <template <typename, typename ...> typename C, std::size_t DMS>
+template <template <typename, typename ...> typename C, uint64_t>
 uint64_t parLaunch(
-    uint64_t amountNode, std::vector<std::vector<uint64_t>> const& graphSides, uint32_t rs, std::vector<std::array<uint64_t, DMS>> pts,
+    uint64_t amountNode, std::vector<std::vector<uint64_t>> const& graphSides, uint32_t rs, std::vector<std::array<uint64_t, 3>> pts,
     std::function<C<int64_t>(uint64_t, uint64_t,  std::vector<std::vector<uint64_t>> const&)> const& calcBfs)
 {
     uint64_t summ = 0;
@@ -78,7 +75,7 @@ uint64_t parLaunch(
 
 int main()
 {
-    std::array<uint64_t, 3> dims = {500, 500, 500};
+    std::array<uint64_t, 3> dims = {400, 400, 400};
     uint64_t amountNode = getAmountOfNodes(dims);
     auto graphSides = getGraph(dims);
     std::vector<std::array<uint64_t, 3>> pts = getAll(dims);
